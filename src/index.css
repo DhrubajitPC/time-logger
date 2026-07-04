@@ -1,0 +1,42 @@
+:root {
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #fff6ec;
+  color: #2d2438;
+  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+input,
+select,
+button {
+  font-family: 'Nunito', sans-serif;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,23 @@
+node_modules
+dist
+dist-ssr
+*.local
+
+# Env — real config lives here, never commit it
+.env
+.env.*
+!.env.example
+
+# Firebase
+.firebase
+firebase-debug.log
+firestore-debug.log
+
+# Editor / OS
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea
+
+# TS incremental build info
+*.tsbuildinfo
