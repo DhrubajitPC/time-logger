@@ -1,4 +1,5 @@
 import { initializeApp, type FirebaseApp } from 'firebase/app';
+import { getAnalytics, isSupported as isAnalyticsSupported } from 'firebase/analytics';
 import {
   GoogleAuthProvider,
   getAuth,
@@ -20,6 +21,7 @@ const firebaseConfig = {
   storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
 /** True only when every required config value is present. */
@@ -48,6 +50,17 @@ if (isFirebaseConfigured) {
       tabManager: persistentMultipleTabManager(),
     }),
   });
+
+  // Analytics is optional and only supported in browser environments — guard it.
+  if (firebaseConfig.measurementId) {
+    void isAnalyticsSupported()
+      .then((supported) => {
+        if (supported && app) getAnalytics(app);
+      })
+      .catch(() => {
+        /* analytics unavailable — non-fatal */
+      });
+  }
 }
 
 /** Auth instance. Throws if Firebase is not configured — guard with isFirebaseConfigured. */
