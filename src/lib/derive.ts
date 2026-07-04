@@ -3,6 +3,18 @@ import { fmtDur, toDateStr } from './format';
 
 export const RANGE_DAYS: Record<RangeKey, number> = { today: 0, week: 6, month: 29 };
 
+/** Categories sorted for display: ascending by `order`, newest (smallest) on
+ *  top. Legacy docs without an order fall back to 0, keeping their input order
+ *  (Array.prototype.sort is stable). */
+export function sortCategories<T extends { order?: number }>(cats: T[]): T[] {
+  return cats.slice().sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+}
+
+/** The order value to assign a newly created category so it lands on top. */
+export function nextTopOrder(cats: { order?: number }[]): number {
+  return cats.reduce((m, c) => Math.min(m, c.order ?? 0), 0) - 1;
+}
+
 export function catMap(categories: Category[]): Record<string, Category> {
   const m: Record<string, Category> = {};
   for (const c of categories) m[c.id] = c;

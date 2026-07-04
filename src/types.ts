@@ -3,6 +3,9 @@ export interface Category {
   name: string;
   color: string;
   tint: string;
+  /** Sort key, ascending (smaller = higher in the list). Newer categories get
+   *  smaller values so they appear on top. Optional for legacy docs. */
+  order?: number;
 }
 
 export interface Entry {

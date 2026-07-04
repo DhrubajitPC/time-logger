@@ -12,6 +12,7 @@ import {
   type FirestoreError,
 } from 'firebase/firestore';
 import { getDbOrThrow } from './firebase';
+import { nextTopOrder, sortCategories } from './derive';
 import type { ActiveTimer, Category, Entry, TrackerData } from '../types';
 
 const LEGACY_KEY = 'candypop_tracker_v1';
@@ -76,13 +77,15 @@ async function seedOrMigrate(db: Firestore, uid: string): Promise<void> {
   const batch = writeBatch(db);
 
   const categories = legacy?.categories?.length ? legacy.categories : DEFAULT_CATEGORIES;
-  for (const c of categories) {
+  categories.forEach((c, i) => {
     batch.set(doc(catsCol(db, uid), c.id), {
       name: c.name,
       color: c.color,
       tint: c.tint,
+      // Preserve original top-to-bottom order for seeded/migrated categories.
+      order: i,
     });
-  }
+  });
   for (const e of legacy?.entries ?? []) {
     batch.set(doc(entriesCol(db, uid), e.id), {
       catId: e.catId,
@@ -192,7 +195,10 @@ export function useTracker(uid: string): UseTrackerResult {
     const unsubCats = onSnapshot(
       catsCol(db, uid),
       (snap) => {
-        setCategories(snap.docs.map((d) => ({ id: d.id, ...(d.data() as Omit<Category, 'id'>) })));
+        const cats = sortCategories(
+          snap.docs.map((d) => ({ id: d.id, ...(d.data() as Omit<Category, 'id'>) })),
+        );
+        setCategories(cats);
       },
       onErr,
     );
@@ -266,6 +272,9 @@ export function useTracker(uid: string): UseTrackerResult {
       name: 'New category',
       color: pair[0],
       tint: pair[1],
+      // One below the current minimum so the new category sorts to the top,
+      // even when existing (legacy) categories have no order and fall back to 0.
+      order: nextTopOrder(data.categories),
     });
   }
 

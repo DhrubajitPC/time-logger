@@ -6,6 +6,8 @@ import {
   rangeStart,
   startOfDay,
   catMap,
+  sortCategories,
+  nextTopOrder,
 } from './derive';
 import type { Category, Entry } from '../types';
 
@@ -45,6 +47,45 @@ describe('startOfDay / rangeStart', () => {
 describe('catMap', () => {
   it('indexes categories by id', () => {
     expect(catMap(cats).exercise.name).toBe('Exercise');
+  });
+});
+
+describe('category ordering', () => {
+  it('sorts ascending by order (newest/smallest on top)', () => {
+    const input = [
+      { id: 'a', order: 0 },
+      { id: 'new', order: -1 },
+      { id: 'b', order: 2 },
+    ];
+    expect(sortCategories(input).map((c) => c.id)).toEqual(['new', 'a', 'b']);
+  });
+
+  it('keeps input order for legacy categories without an order', () => {
+    const input: { id: string; order?: number }[] = [{ id: 'x' }, { id: 'y' }, { id: 'z' }];
+    expect(sortCategories(input).map((c) => c.id)).toEqual(['x', 'y', 'z']);
+  });
+
+  it('does not mutate the input array', () => {
+    const input = [{ id: 'b', order: 1 }, { id: 'a', order: 0 }];
+    sortCategories(input);
+    expect(input.map((c) => c.id)).toEqual(['b', 'a']);
+  });
+
+  it('nextTopOrder returns below the current minimum', () => {
+    expect(nextTopOrder([{ order: 0 }, { order: 1 }, { order: 2 }])).toBe(-1);
+    expect(nextTopOrder([{ order: -3 }, { order: 0 }])).toBe(-4);
+  });
+
+  it('nextTopOrder handles legacy categories (no order) and empty list', () => {
+    expect(nextTopOrder([{}, {}])).toBe(-1); // all fall back to 0
+    expect(nextTopOrder([])).toBe(-1);
+  });
+
+  it('stacks successive new categories on top', () => {
+    let list: { id: string; order?: number }[] = [{ id: 'seed' }];
+    list = [...list, { id: 'first', order: nextTopOrder(list) }];
+    list = [...list, { id: 'second', order: nextTopOrder(list) }];
+    expect(sortCategories(list).map((c) => c.id)).toEqual(['second', 'first', 'seed']);
   });
 });
 
