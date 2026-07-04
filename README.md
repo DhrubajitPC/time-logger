@@ -87,6 +87,28 @@ firebase deploy --only firestore:rules
 
 ---
 
+## CI/CD (GitHub Actions)
+
+Two workflows live in `.github/workflows/`:
+
+- **`ci.yml`** — runs on every pull request: lint, typecheck, test, build.
+- **`deploy.yml`** — runs on push to `main` (and manual dispatch): the same
+  checks, then `firebase deploy --only hosting,firestore` to project
+  `time-ffc72`.
+
+Configuration for these lives in the repo's GitHub settings:
+
+- **Variables** (Settings → Secrets and variables → Actions → *Variables*) —
+  the public `VITE_FIREBASE_*` config values, injected at build time.
+- **Secret** `FIREBASE_TOKEN` (Settings → Secrets and variables → Actions →
+  *Secrets*) — a Firebase CI token used to authenticate the deploy. Generate it
+  with:
+
+  ```bash
+  firebase login:ci      # opens a browser, prints a token
+  gh secret set FIREBASE_TOKEN   # paste the token when prompted
+  ```
+
 ## Scripts
 
 | Command             | What it does                              |
