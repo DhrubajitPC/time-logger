@@ -9,6 +9,7 @@ import {
   writeBatch,
   getDocs,
   type Firestore,
+  type FirestoreError,
 } from 'firebase/firestore';
 import { getDbOrThrow } from './firebase';
 import type { ActiveTimer, Category, Entry, TrackerData } from '../types';
@@ -107,9 +108,24 @@ async function seedOrMigrate(db: Firestore, uid: string): Promise<void> {
   }
 }
 
+/** Turns a Firestore listener error into a user-facing message. */
+function describeError(err: FirestoreError): string {
+  switch (err.code) {
+    case 'permission-denied':
+      return "Can't access your data. Deploy the Firestore security rules (firebase deploy --only firestore:rules) and make sure a Firestore database exists.";
+    case 'unavailable':
+      return "Can't reach the database. Check your connection and try again.";
+    case 'failed-precondition':
+      return 'A Firestore database has not been created for this project yet. Create one in the Firebase console.';
+    default:
+      return `Something went wrong loading your data (${err.code}).`;
+  }
+}
+
 interface UseTrackerResult {
   data: TrackerData | null;
   ready: boolean;
+  error: string | null;
   startTimer: (catId: string) => Promise<void>;
   stopTimer: () => Promise<void>;
   addEntry: (catId: string, start: number, end: number) => Promise<void>;
@@ -132,6 +148,7 @@ export function useTracker(uid: string): UseTrackerResult {
   const [entries, setEntries] = useState<Entry[] | null>(null);
   const [activeTimer, setActiveTimer] = useState<ActiveTimer | null>(null);
   const [userLoaded, setUserLoaded] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const seedingRef = useRef(false);
 
   const db = getDbOrThrow();
@@ -140,32 +157,53 @@ export function useTracker(uid: string): UseTrackerResult {
     setCategories(null);
     setEntries(null);
     setUserLoaded(false);
+    setError(null);
     seedingRef.current = false;
 
-    const unsubUser = onSnapshot(userDoc(db, uid), (snap) => {
-      const d = snap.data();
-      setActiveTimer((d?.activeTimer as ActiveTimer | null) ?? null);
-      setUserLoaded(true);
+    // Any listener failing (e.g. rules not deployed) surfaces an error instead
+    // of leaving the app spinning forever.
+    const onErr = (err: FirestoreError) => {
+      console.error('Firestore listener error', err);
+      setError(describeError(err));
+    };
 
-      // Seed/migrate once if this user's store has never been initialized.
-      if (!snap.exists() || !d?.seeded) {
-        if (!seedingRef.current) {
-          seedingRef.current = true;
-          void seedOrMigrate(db, uid).catch((err) => {
-            console.error('Seed/migrate failed', err);
-            seedingRef.current = false;
-          });
+    const unsubUser = onSnapshot(
+      userDoc(db, uid),
+      (snap) => {
+        const d = snap.data();
+        setActiveTimer((d?.activeTimer as ActiveTimer | null) ?? null);
+        setUserLoaded(true);
+
+        // Seed/migrate once if this user's store has never been initialized.
+        if (!snap.exists() || !d?.seeded) {
+          if (!seedingRef.current) {
+            seedingRef.current = true;
+            void seedOrMigrate(db, uid).catch((err) => {
+              console.error('Seed/migrate failed', err);
+              seedingRef.current = false;
+              setError(describeError(err as FirestoreError));
+            });
+          }
         }
-      }
-    });
+      },
+      onErr,
+    );
 
-    const unsubCats = onSnapshot(catsCol(db, uid), (snap) => {
-      setCategories(snap.docs.map((d) => ({ id: d.id, ...(d.data() as Omit<Category, 'id'>) })));
-    });
+    const unsubCats = onSnapshot(
+      catsCol(db, uid),
+      (snap) => {
+        setCategories(snap.docs.map((d) => ({ id: d.id, ...(d.data() as Omit<Category, 'id'>) })));
+      },
+      onErr,
+    );
 
-    const unsubEntries = onSnapshot(entriesCol(db, uid), (snap) => {
-      setEntries(snap.docs.map((d) => ({ id: d.id, ...(d.data() as Omit<Entry, 'id'>) })));
-    });
+    const unsubEntries = onSnapshot(
+      entriesCol(db, uid),
+      (snap) => {
+        setEntries(snap.docs.map((d) => ({ id: d.id, ...(d.data() as Omit<Entry, 'id'>) })));
+      },
+      onErr,
+    );
 
     return () => {
       unsubUser();
@@ -257,6 +295,7 @@ export function useTracker(uid: string): UseTrackerResult {
   return {
     data,
     ready,
+    error,
     startTimer,
     stopTimer,
     addEntry,

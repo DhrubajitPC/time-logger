@@ -33,7 +33,7 @@ export default function Tracker({ user, onSignOut }: Props) {
     return () => clearInterval(id);
   }, []);
 
-  const { data, ready } = tracker;
+  const { data, ready, error } = tracker;
 
   function openAdd() {
     const t = Date.now();
@@ -171,7 +171,38 @@ export default function Tracker({ user, onSignOut }: Props) {
           </button>
         </div>
 
-        {!ready || !data ? (
+        {error ? (
+          <div
+            style={{
+              marginTop: 30,
+              background: '#FDECEC',
+              border: '2px solid #F5C2C2',
+              borderRadius: 20,
+              padding: '20px 22px',
+              color: '#B23A3A',
+              fontWeight: 700,
+              fontSize: 14,
+              lineHeight: 1.5,
+            }}
+          >
+            {error}
+            <div
+              onClick={() => window.location.reload()}
+              style={{
+                marginTop: 14,
+                background: '#E14B4B',
+                color: '#fff',
+                borderRadius: 999,
+                padding: '10px 0',
+                textAlign: 'center',
+                fontWeight: 800,
+                cursor: 'pointer',
+              }}
+            >
+              Retry
+            </div>
+          </div>
+        ) : !ready || !data ? (
           <div style={{ marginTop: 80, display: 'flex', justifyContent: 'center' }}>
             <Spinner />
           </div>
