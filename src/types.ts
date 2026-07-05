@@ -15,6 +15,8 @@ export interface Entry {
   start: number;
   /** epoch ms */
   end: number;
+  /** Optional free-text note the user attaches when logging the entry. */
+  comment?: string;
 }
 
 export interface ActiveTimer {
@@ -40,4 +42,5 @@ export interface ModalState {
   date: string;
   start: string;
   end: string;
+  comment: string;
 }

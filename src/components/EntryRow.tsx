@@ -31,7 +31,24 @@ export default function EntryRow({ entry, cat, last, settings, onEdit }: Props) 
           flexShrink: 0,
         }}
       />
-      <div style={{ flex: 1, fontWeight: 700, fontSize: 15 }}>{cat?.name ?? 'Deleted'}</div>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ fontWeight: 700, fontSize: 15 }}>{cat?.name ?? 'Deleted'}</div>
+        {entry.comment && (
+          <div
+            style={{
+              fontWeight: 600,
+              fontSize: 13,
+              color: '#B09A85',
+              marginTop: 2,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {entry.comment}
+          </div>
+        )}
+      </div>
       <div style={{ fontWeight: 600, fontSize: 13, color: '#B09A85' }}>
         {fmtClock(entry.start, settings)} – {fmtClock(entry.end, settings)}
       </div>

@@ -6,6 +6,7 @@ import {
   setDoc,
   updateDoc,
   deleteDoc,
+  deleteField,
   writeBatch,
   getDocs,
   type Firestore,
@@ -131,8 +132,14 @@ interface UseTrackerResult {
   error: string | null;
   startTimer: (catId: string) => Promise<void>;
   stopTimer: () => Promise<void>;
-  addEntry: (catId: string, start: number, end: number) => Promise<void>;
-  updateEntry: (id: string, catId: string, start: number, end: number) => Promise<void>;
+  addEntry: (catId: string, start: number, end: number, comment?: string) => Promise<void>;
+  updateEntry: (
+    id: string,
+    catId: string,
+    start: number,
+    end: number,
+    comment?: string,
+  ) => Promise<void>;
   deleteEntry: (id: string) => Promise<void>;
   addCategory: () => Promise<void>;
   renameCategory: (id: string, name: string) => Promise<void>;
@@ -253,12 +260,37 @@ export function useTracker(uid: string): UseTrackerResult {
     await setActive(null);
   }
 
-  async function addEntry(catId: string, start: number, end: number): Promise<void> {
-    await setDoc(doc(entriesCol(db, uid), newId('e')), { catId, start, end });
+  async function addEntry(
+    catId: string,
+    start: number,
+    end: number,
+    comment?: string,
+  ): Promise<void> {
+    const note = comment?.trim();
+    await setDoc(doc(entriesCol(db, uid), newId('e')), {
+      catId,
+      start,
+      end,
+      // Omit when empty so we don't store blank strings for note-less entries.
+      ...(note ? { comment: note } : {}),
+    });
   }
 
-  async function updateEntry(id: string, catId: string, start: number, end: number): Promise<void> {
-    await updateDoc(doc(entriesCol(db, uid), id), { catId, start, end });
+  async function updateEntry(
+    id: string,
+    catId: string,
+    start: number,
+    end: number,
+    comment?: string,
+  ): Promise<void> {
+    const note = comment?.trim();
+    // Empty note clears any existing comment via deleteField().
+    await updateDoc(doc(entriesCol(db, uid), id), {
+      catId,
+      start,
+      end,
+      comment: note ? note : deleteField(),
+    });
   }
 
   async function deleteEntry(id: string): Promise<void> {

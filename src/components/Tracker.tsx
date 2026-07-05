@@ -44,6 +44,7 @@ export default function Tracker({ user, onSignOut }: Props) {
       date: toDateStr(t),
       start: toTimeStr(t - 30 * 60000),
       end: toTimeStr(t),
+      comment: '',
     });
   }
 
@@ -55,6 +56,7 @@ export default function Tracker({ user, onSignOut }: Props) {
       date: toDateStr(e.start),
       start: toTimeStr(e.start),
       end: toTimeStr(e.end),
+      comment: e.comment ?? '',
     });
   }
 
@@ -65,9 +67,9 @@ export default function Tracker({ user, onSignOut }: Props) {
     if (isNaN(start) || isNaN(end)) return;
     if (end <= start) end += 24 * 3600000; // crosses midnight
     if (modal.mode === 'edit' && modal.id) {
-      await tracker.updateEntry(modal.id, modal.catId, start, end);
+      await tracker.updateEntry(modal.id, modal.catId, start, end, modal.comment);
     } else {
-      await tracker.addEntry(modal.catId, start, end);
+      await tracker.addEntry(modal.catId, start, end, modal.comment);
     }
     setModal(null);
   }

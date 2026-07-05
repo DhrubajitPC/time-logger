@@ -128,6 +128,21 @@ export default function EntryModal({
           </div>
         </div>
 
+        <div style={{ ...label, marginTop: 18 }}>Note (optional)</div>
+        <textarea
+          value={modal.comment}
+          onChange={(e) => onChange({ comment: e.target.value })}
+          placeholder="What were you working on?"
+          rows={2}
+          style={{
+            ...field,
+            marginTop: 6,
+            resize: 'none',
+            lineHeight: 1.4,
+            fontWeight: 600,
+          }}
+        />
+
         <div
           onClick={onSave}
           style={{
