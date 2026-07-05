@@ -64,68 +64,68 @@ export default function AccountMenu({
   return (
     <BottomSheet onClose={onClose}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <Avatar user={user} size={52} />
-          <div style={{ minWidth: 0 }}>
-            <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 18 }}>
-              {user.displayName || 'Signed in'}
-            </div>
-            <div
-              style={{
-                color: '#B09A85',
-                fontWeight: 600,
-                fontSize: 13,
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              {user.email}
-            </div>
+        <Avatar user={user} size={52} />
+        <div style={{ minWidth: 0 }}>
+          <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 18 }}>
+            {user.displayName || 'Signed in'}
+          </div>
+          <div
+            style={{
+              color: '#B09A85',
+              fontWeight: 600,
+              fontSize: 13,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {user.email}
           </div>
         </div>
+      </div>
 
-        <div style={{ marginTop: 20 }}>
-          <div style={toggleRow}>
-            <div style={{ fontWeight: 800, fontSize: 15 }}>Clock format</div>
-            <Segmented
-              value={settings.timeFormat}
-              options={[
-                { key: '12h', label: '12h' },
-                { key: '24h', label: '24h' },
-              ]}
-              onChange={(v) => onUpdateSettings({ timeFormat: v })}
-            />
-          </div>
-          <div style={{ ...toggleRow, borderBottom: 'none' }}>
-            <div style={{ fontWeight: 800, fontSize: 15 }}>Show seconds on timer</div>
-            <Segmented
-              value={settings.showSeconds ? 'on' : 'off'}
-              options={[
-                { key: 'on', label: 'On' },
-                { key: 'off', label: 'Off' },
-              ]}
-              onChange={(v) => onUpdateSettings({ showSeconds: v === 'on' })}
-            />
-          </div>
+      <div style={{ marginTop: 20 }}>
+        <div style={toggleRow}>
+          <div style={{ fontWeight: 800, fontSize: 15 }}>Clock format</div>
+          <Segmented
+            value={settings.timeFormat}
+            options={[
+              { key: '12h', label: '12h' },
+              { key: '24h', label: '24h' },
+            ]}
+            onChange={(v) => onUpdateSettings({ timeFormat: v })}
+          />
         </div>
+        <div style={{ ...toggleRow, borderBottom: 'none' }}>
+          <div style={{ fontWeight: 800, fontSize: 15 }}>Show seconds on timer</div>
+          <Segmented
+            value={settings.showSeconds ? 'on' : 'off'}
+            options={[
+              { key: 'on', label: 'On' },
+              { key: 'off', label: 'Off' },
+            ]}
+            onChange={(v) => onUpdateSettings({ showSeconds: v === 'on' })}
+          />
+        </div>
+      </div>
 
-        <div
-          onClick={onSignOut}
-          style={{
-            marginTop: 18,
-            background: '#fff',
-            border: '2px solid #F3EADF',
-            borderRadius: 999,
-            padding: '14px 0',
-            textAlign: 'center',
-            color: '#E14B4B',
-            fontWeight: 800,
-            fontSize: 15,
-            cursor: 'pointer',
-          }}
-        >
-          Sign out
-        </div>
+      <div
+        onClick={onSignOut}
+        style={{
+          marginTop: 18,
+          background: '#fff',
+          border: '2px solid #F3EADF',
+          borderRadius: 999,
+          padding: '14px 0',
+          textAlign: 'center',
+          color: '#E14B4B',
+          fontWeight: 800,
+          fontSize: 15,
+          cursor: 'pointer',
+        }}
+      >
+        Sign out
+      </div>
     </BottomSheet>
   );
 }
