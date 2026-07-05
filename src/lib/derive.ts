@@ -1,5 +1,5 @@
 import type { Category, Entry, RangeKey } from '../types';
-import { fmtDur, toDateStr } from './format';
+import { toDateStr } from './format';
 
 export const RANGE_DAYS: Record<RangeKey, number> = { today: 0, week: 6, month: 29 };
 
@@ -132,5 +132,3 @@ export function todayEntries(entries: Entry[], now: number): Entry[] {
     .sort((a, b) => b.start - a.start)
     .filter((e) => e.start >= today);
 }
-
-export { fmtDur };

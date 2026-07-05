@@ -1,4 +1,5 @@
 import type { Category, ModalState } from '../types';
+import BottomSheet from './BottomSheet';
 
 interface Props {
   modal: ModalState;
@@ -39,29 +40,8 @@ export default function EntryModal({
 }: Props) {
   const isEdit = modal.mode === 'edit';
   return (
-    <div
-      onClick={onClose}
-      style={{
-        position: 'fixed',
-        inset: 0,
-        background: 'rgba(45,36,56,0.45)',
-        zIndex: 20,
-        display: 'flex',
-        alignItems: 'flex-end',
-        justifyContent: 'center',
-      }}
-    >
-      <div
-        onClick={(e) => e.stopPropagation()}
-        style={{
-          width: '100%',
-          maxWidth: 520,
-          background: '#FFF6EC',
-          borderRadius: '28px 28px 0 0',
-          padding: '24px 22px calc(24px + env(safe-area-inset-bottom)) 22px',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+    <BottomSheet onClose={onClose}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 22 }}>
             {isEdit ? 'Edit entry' : 'Add entry'}
           </div>
@@ -176,7 +156,6 @@ export default function EntryModal({
             Delete entry
           </div>
         )}
-      </div>
-    </div>
+    </BottomSheet>
   );
 }

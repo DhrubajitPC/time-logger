@@ -10,6 +10,7 @@ import TabBar from './TabBar';
 import EntryModal from './EntryModal';
 import ManageCategories from './ManageCategories';
 import AccountMenu from './AccountMenu';
+import Avatar from './Avatar';
 import Spinner from './Spinner';
 
 interface Props {
@@ -146,30 +147,7 @@ export default function Tracker({ user, onSignOut }: Props) {
               marginTop: 2,
             }}
           >
-            {user.photoURL ? (
-              <img
-                src={user.photoURL}
-                alt=""
-                referrerPolicy="no-referrer"
-                style={{ width: 38, height: 38, borderRadius: '50%' }}
-              />
-            ) : (
-              <div
-                style={{
-                  width: 38,
-                  height: 38,
-                  borderRadius: '50%',
-                  background: '#FF6B57',
-                  color: '#fff',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontWeight: 800,
-                }}
-              >
-                {(user.displayName || user.email || '?').charAt(0).toUpperCase()}
-              </div>
-            )}
+            <Avatar user={user} size={38} />
           </button>
         </div>
 

@@ -1,5 +1,6 @@
 import type { Category } from '../types';
 import { COLOR_PALETTE } from '../lib/store';
+import BottomSheet from './BottomSheet';
 
 interface Props {
   categories: Category[];
@@ -19,31 +20,8 @@ export default function ManageCategories({
   onClose,
 }: Props) {
   return (
-    <div
-      onClick={onClose}
-      style={{
-        position: 'fixed',
-        inset: 0,
-        background: 'rgba(45,36,56,0.45)',
-        zIndex: 20,
-        display: 'flex',
-        alignItems: 'flex-end',
-        justifyContent: 'center',
-      }}
-    >
-      <div
-        onClick={(e) => e.stopPropagation()}
-        style={{
-          width: '100%',
-          maxWidth: 520,
-          background: '#FFF6EC',
-          borderRadius: '28px 28px 0 0',
-          padding: '24px 22px calc(24px + env(safe-area-inset-bottom)) 22px',
-          maxHeight: '80dvh',
-          overflowY: 'auto',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+    <BottomSheet onClose={onClose} scrollable>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 22 }}>
             Categories
           </div>
@@ -120,7 +98,6 @@ export default function ManageCategories({
         >
           + Add category
         </div>
-      </div>
-    </div>
+    </BottomSheet>
   );
 }

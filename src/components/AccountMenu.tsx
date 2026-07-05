@@ -1,5 +1,7 @@
 import type { User } from 'firebase/auth';
 import type { TimeSettings } from '../lib/format';
+import BottomSheet from './BottomSheet';
+import Avatar from './Avatar';
 
 interface Props {
   user: User;
@@ -60,54 +62,9 @@ export default function AccountMenu({
   onClose,
 }: Props) {
   return (
-    <div
-      onClick={onClose}
-      style={{
-        position: 'fixed',
-        inset: 0,
-        background: 'rgba(45,36,56,0.45)',
-        zIndex: 20,
-        display: 'flex',
-        alignItems: 'flex-end',
-        justifyContent: 'center',
-      }}
-    >
-      <div
-        onClick={(e) => e.stopPropagation()}
-        style={{
-          width: '100%',
-          maxWidth: 520,
-          background: '#FFF6EC',
-          borderRadius: '28px 28px 0 0',
-          padding: '24px 22px calc(24px + env(safe-area-inset-bottom)) 22px',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          {user.photoURL ? (
-            <img
-              src={user.photoURL}
-              alt=""
-              referrerPolicy="no-referrer"
-              style={{ width: 52, height: 52, borderRadius: '50%' }}
-            />
-          ) : (
-            <div
-              style={{
-                width: 52,
-                height: 52,
-                borderRadius: '50%',
-                background: '#FF6B57',
-                color: '#fff',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontWeight: 800,
-                fontSize: 22,
-              }}
-            >
-              {(user.displayName || user.email || '?').charAt(0).toUpperCase()}
-            </div>
-          )}
+    <BottomSheet onClose={onClose}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+          <Avatar user={user} size={52} />
           <div style={{ minWidth: 0 }}>
             <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 18 }}>
               {user.displayName || 'Signed in'}
@@ -169,7 +126,6 @@ export default function AccountMenu({
         >
           Sign out
         </div>
-      </div>
-    </div>
+    </BottomSheet>
   );
 }
