@@ -3,6 +3,7 @@ import type { User } from 'firebase/auth';
 import type { Entry, ModalState, RangeKey, Tab } from '../types';
 import { useTracker } from '../lib/store';
 import { useSettings } from '../lib/useSettings';
+import { useSwipe } from '../lib/useSwipe';
 import { toDateStr, toTimeStr } from '../lib/format';
 import TrackTab from './TrackTab';
 import StatsTab from './StatsTab';
@@ -35,6 +36,12 @@ export default function Tracker({ user, onSignOut }: Props) {
   }, []);
 
   const { data, ready, error } = tracker;
+
+  // Swipe left → Stats, swipe right → Track.
+  const swipe = useSwipe({
+    onSwipeLeft: () => setTab('stats'),
+    onSwipeRight: () => setTab('track'),
+  });
 
   function openAdd() {
     const t = Date.now();
@@ -111,7 +118,10 @@ export default function Tracker({ user, onSignOut }: Props) {
         position: 'relative',
       }}
     >
-      <div style={{ flex: 1, padding: 'calc(20px + env(safe-area-inset-top)) 22px 120px 22px' }}>
+      <div
+        {...swipe}
+        style={{ flex: 1, padding: 'calc(20px + env(safe-area-inset-top)) 22px 120px 22px' }}
+      >
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
           <div>
             <div
