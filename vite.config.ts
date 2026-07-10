@@ -32,8 +32,8 @@ export default defineConfig({
         short_name: 'Time Pop',
         description: 'Where is your time going? A delightful time tracker.',
         display: 'standalone',
-        background_color: '#FFF6EC',
-        theme_color: '#FFF6EC',
+        background_color: '#FAF7F2',
+        theme_color: '#FAF7F2',
         start_url: '.',
         icons: [
           { src: 'icon-180.png', sizes: '180x180', type: 'image/png' },

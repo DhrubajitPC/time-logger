@@ -18,23 +18,26 @@ import type { ActiveTimer, Category, Entry, TrackerData } from '../types';
 
 const LEGACY_KEY = 'candypop_tracker_v1';
 
+// Muted category palette (see DESIGN.md "Tertiary"). Each pair is
+// [solid, tint]. Existing synced categories keep whatever colors they were
+// saved with until recolored in Manage categories.
 const PALETTE: [string, string][] = [
-  ['#F5A623', '#FFE3A3'],
-  ['#34B76F', '#C9F0D8'],
-  ['#5B6CFF', '#D7DCFF'],
-  ['#F25CA2', '#FFD6E8'],
-  ['#FF6B57', '#FFD9CF'],
-  ['#8B5CF6', '#E4D9FF'],
-  ['#0EA5B7', '#C7EEF3'],
+  ['#B98A2E', '#F1E8D4'], // ochre
+  ['#4E9569', '#DDEBE1'], // moss
+  ['#6470B8', '#E3E6F4'], // dusk indigo
+  ['#C05C86', '#F3E0E9'], // rose clay
+  ['#7A8A3C', '#E7EBD5'], // olive
+  ['#8A64A8', '#EBE2F2'], // plum
+  ['#3D8C94', '#D9EAEC'], // teal
 ];
 
 export const COLOR_PALETTE = PALETTE;
 
 const DEFAULT_CATEGORIES: Category[] = [
-  { id: 'work', name: 'Work', color: '#F5A623', tint: '#FFE3A3' },
-  { id: 'exercise', name: 'Exercise', color: '#34B76F', tint: '#C9F0D8' },
-  { id: 'reading', name: 'Reading', color: '#5B6CFF', tint: '#D7DCFF' },
-  { id: 'chores', name: 'Chores', color: '#F25CA2', tint: '#FFD6E8' },
+  { id: 'work', name: 'Work', color: '#B98A2E', tint: '#F1E8D4' },
+  { id: 'exercise', name: 'Exercise', color: '#4E9569', tint: '#DDEBE1' },
+  { id: 'reading', name: 'Reading', color: '#6470B8', tint: '#E3E6F4' },
+  { id: 'chores', name: 'Chores', color: '#C05C86', tint: '#F3E0E9' },
 ];
 
 // ---- Firestore path helpers (data is namespaced per user) ----

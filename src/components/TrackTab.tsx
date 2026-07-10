@@ -15,17 +15,8 @@ interface Props {
 }
 
 const sectionTitle: React.CSSProperties = {
-  fontFamily: "'Fredoka', sans-serif",
-  fontWeight: 600,
+  fontWeight: 700,
   fontSize: 18,
-};
-
-const linkAction: React.CSSProperties = {
-  fontWeight: 800,
-  fontSize: 13,
-  color: '#FF6B57',
-  cursor: 'pointer',
-  padding: '4px 8px',
 };
 
 export default function TrackTab({
@@ -46,49 +37,23 @@ export default function TrackTab({
   return (
     <div>
       {timer && timerCat ? (
-        <div
+        <button
           onClick={onStop}
-          style={{
-            marginTop: 18,
-            background: '#FF6B57',
-            borderRadius: 28,
-            padding: '20px 22px',
-            color: '#fff',
-            boxShadow: '0 12px 24px rgba(255,107,87,0.35)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            cursor: 'pointer',
-          }}
+          className="timer-card"
+          aria-label={`Stop tracking ${timerCat.name}`}
         >
           <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <div
-                style={{
-                  width: 8,
-                  height: 8,
-                  borderRadius: '50%',
-                  background: '#fff',
-                  animation: 'pulse 1.6s ease-in-out infinite',
-                }}
-              />
-              <div
-                style={{
-                  fontWeight: 800,
-                  fontSize: 13,
-                  opacity: 0.9,
-                  textTransform: 'uppercase',
-                  letterSpacing: 1,
-                }}
-              >
+              <div className="pulse-dot" />
+              <div style={{ fontWeight: 700, fontSize: 13 }}>
                 Tracking · {timerCat.name}
               </div>
             </div>
             <div
               style={{
-                fontFamily: "'Fredoka', sans-serif",
-                fontWeight: 600,
-                fontSize: 40,
+                fontWeight: 700,
+                fontSize: 36,
+                lineHeight: 1.1,
                 fontVariantNumeric: 'tabular-nums',
               }}
             >
@@ -97,8 +62,8 @@ export default function TrackTab({
           </div>
           <div
             style={{
-              width: 62,
-              height: 62,
+              width: 52,
+              height: 52,
               borderRadius: '50%',
               background: '#fff',
               display: 'flex',
@@ -107,21 +72,21 @@ export default function TrackTab({
               flexShrink: 0,
             }}
           >
-            <div style={{ width: 20, height: 20, borderRadius: 6, background: '#FF6B57' }} />
+            <div style={{ width: 16, height: 16, borderRadius: 4, background: 'var(--clay)' }} />
           </div>
-        </div>
+        </button>
       ) : (
         <div
           style={{
             marginTop: 18,
-            background: '#FBEBD9',
-            border: '2px dashed #E8D3BC',
-            borderRadius: 28,
-            padding: 22,
+            background: 'var(--surface)',
+            border: '1px solid var(--line)',
+            borderRadius: 'var(--r-lg)',
+            padding: '22px',
             textAlign: 'center',
-            color: '#B09A85',
-            fontWeight: 700,
-            fontSize: 15,
+            color: 'var(--text-muted)',
+            fontWeight: 600,
+            fontSize: 14,
           }}
         >
           Nothing tracking — tap a category below to start
@@ -137,30 +102,24 @@ export default function TrackTab({
         }}
       >
         <div style={sectionTitle}>Tap to start</div>
-        <div onClick={onManage} style={linkAction}>
+        <button onClick={onManage} className="btn-ghost" style={{ fontSize: 13 }}>
           Edit
-        </div>
+        </button>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginTop: 12 }}>
         {data.categories.map((c) => (
-          <div
+          <button
             key={c.id}
             onClick={() => onStart(c.id)}
+            className="tile"
             style={{
               background: c.tint,
-              border: `3px solid ${timer?.catId === c.id ? '#2D2438' : 'transparent'}`,
-              borderRadius: 22,
-              padding: 16,
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 8,
-              cursor: 'pointer',
-              minHeight: 44,
+              border: `2px solid ${timer?.catId === c.id ? 'var(--ink)' : 'transparent'}`,
             }}
           >
-            <div style={{ width: 34, height: 34, borderRadius: 12, background: c.color }} />
-            <div style={{ fontWeight: 800, fontSize: 16 }}>{c.name}</div>
-          </div>
+            <div style={{ width: 34, height: 34, borderRadius: 10, background: c.color }} />
+            <div style={{ fontWeight: 700, fontSize: 16, color: 'var(--ink)' }}>{c.name}</div>
+          </button>
         ))}
       </div>
 
@@ -173,12 +132,20 @@ export default function TrackTab({
         }}
       >
         <div style={sectionTitle}>Today</div>
-        <div onClick={onAdd} style={linkAction}>
-          + Add manually
-        </div>
+        <button onClick={onAdd} className="btn-ghost" style={{ fontSize: 13 }}>
+          + Add entry
+        </button>
       </div>
       {today.length > 0 ? (
-        <div style={{ marginTop: 10, background: '#fff', borderRadius: 20, padding: '4px 16px' }}>
+        <div
+          style={{
+            marginTop: 10,
+            background: 'var(--surface)',
+            border: '1px solid var(--line)',
+            borderRadius: 'var(--r-lg)',
+            padding: '4px 16px',
+          }}
+        >
           {today.map((e, i) => (
             <EntryRow
               key={e.id}
@@ -194,12 +161,13 @@ export default function TrackTab({
         <div
           style={{
             marginTop: 10,
-            background: '#fff',
-            borderRadius: 20,
+            background: 'var(--surface)',
+            border: '1px solid var(--line)',
+            borderRadius: 'var(--r-lg)',
             padding: 20,
             textAlign: 'center',
-            color: '#B09A85',
-            fontWeight: 700,
+            color: 'var(--text-muted)',
+            fontWeight: 600,
             fontSize: 14,
           }}
         >

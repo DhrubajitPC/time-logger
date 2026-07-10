@@ -1,5 +1,38 @@
+/* Time Pop — "The Sunlit Desk" design tokens (see DESIGN.md). */
 :root {
   color-scheme: light;
+
+  /* Color */
+  --clay: #b4543b;
+  --clay-deep: #9a4630;
+  --clay-wash: #f5e6df;
+  --ink: #2e2a24;
+  --text-muted: #6b635a;
+  --bg-warm: #faf7f2;
+  --surface: #ffffff;
+  --line: #e7e1d8;
+  --danger: #b03a33;
+  --danger-deep: #963028;
+  --danger-wash: #f9e7e4;
+
+  /* Shape */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-pill: 999px;
+
+  /* Elevation (neutral light only — never brand-colored) */
+  --shadow-raised: 0 2px 8px rgba(46, 42, 36, 0.06);
+  --shadow-overlay: 0 12px 32px rgba(46, 42, 36, 0.14);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.25, 1, 0.5, 1);
+  --dur-state: 150ms;
+  --dur-layer: 250ms;
+
+  /* Layering */
+  --z-nav: 10;
+  --z-sheet: 20;
 }
 
 * {
@@ -14,15 +47,339 @@ body {
 }
 
 body {
-  background: #fff6ec;
-  color: #2d2438;
+  background: var(--bg-warm);
+  color: var(--ink);
   font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 input,
 select,
+textarea,
 button {
-  font-family: 'Nunito', sans-serif;
+  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Buttons are styled per-class; strip UA chrome once here. */
+button {
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--clay);
+  outline-offset: 2px;
+}
+
+/* ---- Shared interactive vocabulary ---- */
+
+.btn-primary {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  background: var(--clay);
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+  text-align: center;
+  padding: 14px 20px;
+  border-radius: var(--r-md);
+  transition: background var(--dur-state) var(--ease-out);
+}
+.btn-primary:hover {
+  background: var(--clay-deep);
+}
+.btn-primary:active {
+  background: var(--clay-deep);
+}
+.btn-primary:disabled {
+  background: var(--line);
+  color: var(--text-muted);
+  cursor: default;
+}
+
+.btn-ghost {
+  min-height: 44px;
+  color: var(--clay);
+  font-weight: 700;
+  font-size: 14px;
+  padding: 10px 14px;
+  border-radius: var(--r-md);
+  text-align: center;
+  transition: background var(--dur-state) var(--ease-out);
+}
+.btn-ghost:hover {
+  background: var(--clay-wash);
+}
+
+.btn-ghost--danger {
+  color: var(--danger);
+}
+.btn-ghost--danger:hover {
+  background: var(--danger-wash);
+}
+
+.btn-secondary {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  font-weight: 700;
+  font-size: 15px;
+  text-align: center;
+  padding: 13px 20px;
+  border-radius: var(--r-md);
+  transition: background var(--dur-state) var(--ease-out);
+}
+.btn-secondary:hover {
+  background: var(--bg-warm);
+}
+
+/* Category pill (entry modal picker). Selected tint is set inline per category. */
+.chip {
+  min-height: 44px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 14px;
+  padding: 10px 16px;
+  border-radius: var(--r-pill);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition:
+    background var(--dur-state) var(--ease-out),
+    border-color var(--dur-state) var(--ease-out);
+}
+.chip:hover {
+  background: var(--bg-warm);
+}
+.chip--selected {
+  border-color: transparent;
+}
+.chip--selected:hover {
+  background: inherit;
+}
+
+/* Segmented toggle (range picker, settings). */
+.seg {
+  display: flex;
+  gap: 4px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  padding: 3px;
+}
+.seg-item {
+  min-height: 36px;
+  padding: 6px 14px;
+  border-radius: var(--r-pill);
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--text-muted);
+  transition:
+    background var(--dur-state) var(--ease-out),
+    color var(--dur-state) var(--ease-out);
+}
+.seg-item:hover {
+  color: var(--ink);
+}
+.seg-item--active,
+.seg-item--active:hover {
+  background: var(--ink);
+  color: #fff;
+}
+
+/* Bottom navigation. */
+.tab-item {
+  flex: 1;
+  min-height: 48px;
+  padding: 13px 0;
+  text-align: center;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--text-muted);
+  transition: color var(--dur-state) var(--ease-out);
+}
+.tab-item:hover {
+  color: var(--ink);
+}
+.tab-item--active,
+.tab-item--active:hover {
+  color: var(--clay);
+}
+
+/* Category start tile. Tint background + active border are set inline. */
+.tile {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 16px;
+  border-radius: var(--r-lg);
+  transition: filter var(--dur-state) var(--ease-out);
+}
+.tile:hover {
+  filter: brightness(0.97);
+}
+
+/* The live timer card — the one committed clay surface (see DESIGN.md). */
+.timer-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 18px;
+  background: var(--clay);
+  color: #fff;
+  border-radius: var(--r-lg);
+  padding: 20px 22px;
+  box-shadow: var(--shadow-raised);
+  transition: background var(--dur-state) var(--ease-out);
+}
+.timer-card:hover {
+  background: var(--clay-deep);
+}
+
+/* Tappable list row (entries). */
+.row-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 0;
+  text-align: left;
+  transition: background var(--dur-state) var(--ease-out);
+}
+.row-btn:hover {
+  background: rgba(46, 42, 36, 0.03);
+}
+
+/* Form fields. */
+.field {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 12px 14px;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--ink);
+  transition:
+    border-color var(--dur-state) var(--ease-out),
+    box-shadow var(--dur-state) var(--ease-out);
+}
+.field::placeholder {
+  color: var(--text-muted);
+}
+.field:focus {
+  outline: none;
+  border-color: var(--clay);
+  box-shadow: 0 0 0 2px rgba(180, 84, 59, 0.18);
+}
+
+/* Color swatch (category recolor). 28px dot inside a 44px target. */
+.swatch {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.swatch::after {
+  content: '';
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--swatch-color);
+  transition: box-shadow var(--dur-state) var(--ease-out);
+}
+.swatch:hover::after {
+  box-shadow: 0 0 0 2px var(--line);
+}
+.swatch--selected::after,
+.swatch--selected:hover::after {
+  box-shadow:
+    0 0 0 2px var(--bg-warm),
+    0 0 0 4px var(--ink);
+}
+
+/* Round icon button (avatar). */
+.icon-btn {
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: inline-flex;
+}
+
+/* ---- Overlays ---- */
+
+.sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(46, 42, 36, 0.4);
+  z-index: var(--z-sheet);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: backdrop-in var(--dur-layer) var(--ease-out);
+}
+
+.sheet {
+  width: 100%;
+  max-width: 520px;
+  background: var(--bg-warm);
+  border-radius: 20px 20px 0 0;
+  box-shadow: var(--shadow-overlay);
+  padding: 24px 22px calc(24px + env(safe-area-inset-bottom)) 22px;
+  animation: sheet-in var(--dur-layer) var(--ease-out);
+}
+
+@keyframes backdrop-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes sheet-in {
+  from {
+    transform: translateY(24px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ---- Indicators ---- */
+
+.spinner {
+  width: 28px;
+  height: 28px;
+  border: 4px solid var(--line);
+  border-top-color: var(--clay);
+  border-radius: 50%;
+  display: inline-block;
+  animation: spin 0.8s linear infinite;
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fff;
+  animation: pulse 1.6s ease-in-out infinite;
 }
 
 @keyframes pulse {
@@ -38,5 +395,32 @@ button {
 @keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet,
+  .sheet-backdrop {
+    animation: none;
+  }
+  .pulse-dot {
+    animation: none;
+  }
+  /* Rotation is a vestibular trigger; a gentle fade still reads as "working". */
+  .spinner {
+    animation: pulse 2s ease-in-out infinite;
+  }
+  .btn-primary,
+  .btn-ghost,
+  .btn-secondary,
+  .chip,
+  .seg-item,
+  .tab-item,
+  .tile,
+  .timer-card,
+  .row-btn,
+  .field,
+  .swatch::after {
+    transition: none;
   }
 }

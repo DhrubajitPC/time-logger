@@ -23,12 +23,12 @@ export default function Avatar({ user, size }: Props) {
         width: size,
         height: size,
         borderRadius: '50%',
-        background: '#FF6B57',
+        background: 'var(--clay)',
         color: '#fff',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        fontWeight: 800,
+        fontWeight: 700,
         fontSize: Math.round(size * 0.42),
       }}
     >

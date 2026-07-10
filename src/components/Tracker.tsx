@@ -112,7 +112,7 @@ export default function Tracker({ user, onSignOut }: Props) {
         minHeight: '100dvh',
         maxWidth: 520,
         margin: '0 auto',
-        background: '#FFF6EC',
+        background: 'var(--bg-warm)',
         display: 'flex',
         flexDirection: 'column',
         position: 'relative',
@@ -120,42 +120,22 @@ export default function Tracker({ user, onSignOut }: Props) {
     >
       <div
         {...swipe}
-        style={{ flex: 1, padding: 'calc(20px + env(safe-area-inset-top)) 22px 120px 22px' }}
+        style={{ flex: 1, padding: 'calc(20px + env(safe-area-inset-top)) 22px 110px 22px' }}
       >
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
           <div>
-            <div
-              style={{
-                fontFamily: "'Fredoka', sans-serif",
-                fontWeight: 600,
-                fontSize: 15,
-                color: '#B09A85',
-              }}
-            >
+            <div style={{ fontWeight: 700, fontSize: 13, color: 'var(--text-muted)' }}>
               {todayLabel}
             </div>
-            <div
-              style={{
-                fontFamily: "'Fredoka', sans-serif",
-                fontWeight: 700,
-                fontSize: 30,
-                letterSpacing: '-0.5px',
-              }}
-            >
+            <h1 style={{ fontWeight: 700, fontSize: 22, lineHeight: 1.25, margin: '2px 0 0' }}>
               {tab === 'track' ? "Where's your time going?" : 'Your time, divided'}
-            </div>
+            </h1>
           </div>
           <button
             onClick={() => setMenu(true)}
             aria-label="Account"
-            style={{
-              border: 'none',
-              background: 'transparent',
-              padding: 0,
-              cursor: 'pointer',
-              flexShrink: 0,
-              marginTop: 2,
-            }}
+            className="icon-btn"
+            style={{ marginTop: 2 }}
           >
             <Avatar user={user} size={38} />
           </button>
@@ -163,34 +143,27 @@ export default function Tracker({ user, onSignOut }: Props) {
 
         {error ? (
           <div
+            role="alert"
             style={{
               marginTop: 30,
-              background: '#FDECEC',
-              border: '2px solid #F5C2C2',
-              borderRadius: 20,
+              background: 'var(--danger-wash)',
+              border: '1px solid #ECCFC9',
+              borderRadius: 'var(--r-lg)',
               padding: '20px 22px',
-              color: '#B23A3A',
-              fontWeight: 700,
+              color: 'var(--danger)',
+              fontWeight: 600,
               fontSize: 14,
               lineHeight: 1.5,
             }}
           >
             {error}
-            <div
+            <button
               onClick={() => window.location.reload()}
-              style={{
-                marginTop: 14,
-                background: '#E14B4B',
-                color: '#fff',
-                borderRadius: 999,
-                padding: '10px 0',
-                textAlign: 'center',
-                fontWeight: 800,
-                cursor: 'pointer',
-              }}
+              className="btn-secondary"
+              style={{ marginTop: 14, color: 'var(--danger)' }}
             >
               Retry
-            </div>
+            </button>
           </div>
         ) : !ready || !data ? (
           <div style={{ marginTop: 80, display: 'flex', justifyContent: 'center' }}>

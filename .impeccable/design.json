@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-09T07:27:08Z",
+  "title": "Design System: Time Pop",
+  "extensions": {
+    "colorMeta": {
+      "clay": { "role": "primary", "displayName": "Baked Clay", "canonical": "oklch(55% 0.12 35)", "tonalRamp": ["#3A1B12", "#5C2A1C", "#7D3927", "#9A4630", "#B4543B", "#CE7B62", "#E3A992", "#F5E6DF"] },
+      "clay-deep": { "role": "primary", "displayName": "Shadowed Clay", "canonical": "oklch(48% 0.12 35)", "tonalRamp": ["#2E150E", "#4A2216", "#66301F", "#7F3C27", "#9A4630", "#B86A52", "#D89B85", "#F0DCD3"] },
+      "clay-wash": { "role": "primary", "displayName": "Clay Wash", "canonical": "oklch(93% 0.02 35)", "tonalRamp": ["#4A2A1F", "#6E4433", "#8F5D49", "#AE7862", "#C79581", "#DBB4A4", "#EBD0C5", "#F5E6DF"] },
+      "ink": { "role": "neutral", "displayName": "Warm Ink", "canonical": "oklch(28% 0.01 60)", "tonalRamp": ["#171512", "#2E2A24", "#474138", "#615A4E", "#7C7466", "#9A9284", "#BDB6AA", "#E2DDD4"] },
+      "text-muted": { "role": "neutral", "displayName": "Field Stone", "canonical": "oklch(50% 0.015 60)", "tonalRamp": ["#211E1A", "#38342E", "#504A42", "#6B635A", "#867E73", "#A39B90", "#C4BDB3", "#E6E1D9"] },
+      "bg-warm": { "role": "neutral", "displayName": "Morning Ground", "canonical": "oklch(97.5% 0.006 75)", "tonalRamp": ["#3B372F", "#575247", "#736C5E", "#8F8878", "#ACA595", "#C9C2B3", "#E4DFD3", "#FAF7F2"] },
+      "surface": { "role": "neutral", "displayName": "Paper Surface", "canonical": "oklch(100% 0 0)", "tonalRamp": ["#404040", "#5C5C5C", "#787878", "#949494", "#B0B0B0", "#CCCCCC", "#E8E8E8", "#FFFFFF"] },
+      "line": { "role": "neutral", "displayName": "Hairline", "canonical": "oklch(90.5% 0.01 75)", "tonalRamp": ["#35322B", "#4F4B41", "#6A6557", "#867F6E", "#A29A87", "#BFB7A4", "#DCD5C6", "#E7E1D8"] },
+      "cat-ochre": { "role": "tertiary", "displayName": "Ochre (Work)", "canonical": "oklch(63% 0.11 85)", "tonalRamp": ["#302307", "#4D390E", "#6B5015", "#8A681F", "#B98A2E", "#CFA95C", "#E2C892", "#F1E8D4"] },
+      "cat-moss": { "role": "tertiary", "displayName": "Moss (Exercise)", "canonical": "oklch(58% 0.09 155)", "tonalRamp": ["#122619", "#1F3F2A", "#2E593C", "#3D744F", "#4E9569", "#77B08C", "#A6CCB4", "#DDEBE1"] },
+      "cat-indigo": { "role": "tertiary", "displayName": "Dusk Indigo (Reading)", "canonical": "oklch(55% 0.11 275)", "tonalRamp": ["#171B33", "#272D51", "#383F70", "#4A538F", "#6470B8", "#8A93CC", "#B4BADF", "#E3E6F4"] },
+      "cat-rose": { "role": "tertiary", "displayName": "Rose Clay (Chores)", "canonical": "oklch(57% 0.12 355)", "tonalRamp": ["#2F1220", "#4C1F35", "#6A2D4B", "#883C62", "#C05C86", "#D183A4", "#E2AEC4", "#F3E0E9"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "The running-timer readout only. Always tabular-nums." },
+      "headline": { "displayName": "Headline", "purpose": "Screen titles." },
+      "title": { "displayName": "Title", "purpose": "Section headers, sheet titles, card headings." },
+      "body": { "displayName": "Body", "purpose": "Entry rows, copy, form values. 600 weight for emphasis." },
+      "label": { "displayName": "Label", "purpose": "Timestamps, durations, helper text, tab labels. Sentence case — never uppercase-tracked." }
+    },
+    "shadows": [
+      { "name": "raised", "value": "0 2px 8px rgba(46, 42, 36, 0.06)", "purpose": "The live-timer card; at most one element per screen." },
+      { "name": "overlay", "value": "0 12px 32px rgba(46, 42, 36, 0.14)", "purpose": "Bottom sheets, menus, dialogs — layers that genuinely float." }
+    ],
+    "motion": [
+      { "name": "ease-standard", "value": "cubic-bezier(0.25, 1, 0.5, 1)", "purpose": "Ease-out-quart default for state transitions, 150-250ms." },
+      { "name": "duration-state", "value": "150ms", "purpose": "Hover, focus, selection changes." },
+      { "name": "duration-layer", "value": "250ms", "purpose": "Sheets and overlays entering/leaving." }
+    ],
+    "breakpoints": [
+      { "name": "md", "value": "640px", "purpose": "Phone-first; content column caps and centers above this." }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one clay action per screen — start, save, sign in.",
+      "html": "<button class=\"ds-btn-primary\">Save entry</button>",
+      "css": ".ds-btn-primary { background: #B4543B; color: #FFFFFF; font-family: Nunito, -apple-system, sans-serif; font-size: 0.9375rem; font-weight: 700; padding: 14px 20px; border: none; border-radius: 12px; cursor: pointer; transition: background 150ms cubic-bezier(0.25, 1, 0.5, 1); } .ds-btn-primary:hover { background: #9A4630; } .ds-btn-primary:focus-visible { outline: 2px solid #B4543B; outline-offset: 2px; }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Secondary actions — Manage, Add entry. Clay text, no fill, no border.",
+      "html": "<button class=\"ds-btn-ghost\">Add entry</button>",
+      "css": ".ds-btn-ghost { background: transparent; color: #B4543B; font-family: Nunito, -apple-system, sans-serif; font-size: 0.875rem; font-weight: 700; padding: 10px 14px; border: none; border-radius: 12px; cursor: pointer; transition: background 150ms cubic-bezier(0.25, 1, 0.5, 1); } .ds-btn-ghost:hover { background: #F5E6DF; } .ds-btn-ghost:focus-visible { outline: 2px solid #B4543B; outline-offset: 2px; }"
+    },
+    {
+      "name": "Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Paper surface on the warm ground; hairline border, no shadow at rest.",
+      "html": "<div class=\"ds-card\"><div class=\"ds-card-title\">Today</div><div class=\"ds-card-body\">2h 15m across 3 entries</div></div>",
+      "css": ".ds-card { background: #FFFFFF; border: 1px solid #E7E1D8; border-radius: 16px; padding: 20px; font-family: Nunito, -apple-system, sans-serif; } .ds-card-title { color: #2E2A24; font-size: 1.125rem; font-weight: 700; line-height: 1.3; margin-bottom: 4px; } .ds-card-body { color: #6B635A; font-size: 0.9375rem; line-height: 1.5; }"
+    },
+    {
+      "name": "Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Paper fill, hairline border; focus shifts the border to clay with a soft ring.",
+      "html": "<input class=\"ds-input\" type=\"text\" placeholder=\"Add a note…\" />",
+      "css": ".ds-input { background: #FFFFFF; color: #2E2A24; font-family: Nunito, -apple-system, sans-serif; font-size: 0.9375rem; padding: 12px 14px; border: 1px solid #E7E1D8; border-radius: 12px; transition: border-color 150ms cubic-bezier(0.25, 1, 0.5, 1), box-shadow 150ms cubic-bezier(0.25, 1, 0.5, 1); } .ds-input::placeholder { color: #6B635A; } .ds-input:focus { outline: none; border-color: #B4543B; box-shadow: 0 0 0 2px rgba(180, 84, 59, 0.18); }"
+    },
+    {
+      "name": "Category Chip",
+      "kind": "chip",
+      "refersTo": "chip-category",
+      "description": "Pill with the category's tint fill and solid dot; unselected sits on paper with a hairline.",
+      "html": "<span class=\"ds-chip ds-chip-selected\"><span class=\"ds-chip-dot\"></span>Exercise</span> <span class=\"ds-chip\"><span class=\"ds-chip-dot ds-chip-dot-idle\"></span>Reading</span>",
+      "css": ".ds-chip { display: inline-flex; align-items: center; gap: 6px; background: #FFFFFF; color: #2E2A24; font-family: Nunito, -apple-system, sans-serif; font-size: 0.8125rem; font-weight: 700; padding: 6px 12px; border: 1px solid #E7E1D8; border-radius: 999px; } .ds-chip-selected { background: #DDEBE1; border-color: transparent; } .ds-chip-dot { width: 8px; height: 8px; border-radius: 50%; background: #4E9569; } .ds-chip-dot-idle { background: #6470B8; }"
+    },
+    {
+      "name": "Live Timer Card",
+      "kind": "custom",
+      "refersTo": "card",
+      "description": "The signature component: the one committed clay surface, white tabular digits, pulsing dot, circular stop control.",
+      "html": "<div class=\"ds-timer\"><div class=\"ds-timer-left\"><div class=\"ds-timer-label\"><span class=\"ds-timer-dot\"></span>Tracking · Work</div><div class=\"ds-timer-digits\">1:24:09</div></div><div class=\"ds-timer-stop\"><span class=\"ds-timer-stop-square\"></span></div></div>",
+      "css": ".ds-timer { display: flex; align-items: center; justify-content: space-between; background: #B4543B; color: #FFFFFF; border-radius: 16px; padding: 20px 22px; box-shadow: 0 2px 8px rgba(46, 42, 36, 0.06); font-family: Nunito, -apple-system, sans-serif; cursor: pointer; } .ds-timer-label { display: flex; align-items: center; gap: 8px; font-size: 0.8125rem; font-weight: 700; opacity: 0.92; } .ds-timer-dot { width: 8px; height: 8px; border-radius: 50%; background: #FFFFFF; animation: ds-pulse 1.6s ease-in-out infinite; } .ds-timer-digits { font-size: 2.25rem; font-weight: 700; line-height: 1.1; font-variant-numeric: tabular-nums; margin-top: 2px; } .ds-timer-stop { width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0; } .ds-timer-stop-square { width: 16px; height: 16px; border-radius: 4px; background: #B4543B; } @keyframes ds-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } } @media (prefers-reduced-motion: reduce) { .ds-timer-dot { animation: none; } }"
+    },
+    {
+      "name": "Tab Bar",
+      "kind": "nav",
+      "refersTo": "card",
+      "description": "Bottom navigation: active tab in clay, inactive in Field Stone, hairline on top.",
+      "html": "<nav class=\"ds-tabbar\"><button class=\"ds-tab ds-tab-active\">Track</button><button class=\"ds-tab\">Stats</button></nav>",
+      "css": ".ds-tabbar { display: flex; background: #FFFFFF; border-top: 1px solid #E7E1D8; } .ds-tab { flex: 1; background: none; border: none; padding: 12px 0 14px; font-family: Nunito, -apple-system, sans-serif; font-size: 0.8125rem; font-weight: 700; color: #6B635A; cursor: pointer; transition: color 150ms cubic-bezier(0.25, 1, 0.5, 1); } .ds-tab-active { color: #B4543B; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Sunlit Desk",
+    "overview": "A tidy desk in morning light: warm-tinted surfaces, calm order, everything in its place. The interface is a quiet plane of warm off-white on which white cards sit like sheets of paper, separated by hairlines and soft, neutral light — never by loud color. One clay accent marks the single thing that matters right now (the running timer, the primary action); four muted category colors identify data and nothing else. This is a rework target: the system deliberately retires the original candy-pop skin — display fonts, coral glow shadows, bubble radii — while keeping its warmth in quieter forms.",
+    "keyCharacteristics": [
+      "One hero per screen; everything else recedes",
+      "Warm-tinted neutral ground (#FAF7F2), white paper surfaces, hairline structure",
+      "A single clay accent used sparingly; category colors carry meaning, never decoration",
+      "One typeface (Nunito) at a fixed rem scale; no display font",
+      "Flat by default, gently layered; shadows are neutral light, never brand-colored"
+    ],
+    "rules": [
+      { "name": "The One Clay Rule", "body": "Baked Clay appears on at most ~10% of any screen: the primary action and the live timer. Its rarity is the signal — if clay stops standing for \"the thing happening now,\" it has been overused.", "section": "colors" },
+      { "name": "The Color-Is-Data Rule", "body": "Category colors appear only where they identify a category (dot, chip, stat bar, entry row tint). They never decorate empty space, headers, or chrome.", "section": "colors" },
+      { "name": "The Single Family Rule", "body": "Fredoka is retired. New work never introduces a second family; hierarchy is weight and size within Nunito.", "section": "typography" },
+      { "name": "The Sentence Case Rule", "body": "No uppercase-tracked labels (\"TRACKING · WORK\" becomes \"Tracking · Work\"). Uppercase tracking left with the candy-pop skin.", "section": "typography" },
+      { "name": "The Morning Light Rule", "body": "Shadows are cast by light, not by brand: always neutral warm-gray, never colored. The old coral glow (rgba(255,107,87,0.35)) is forbidden.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep Baked Clay ≤10% of any screen — primary action and live timer only (The One Clay Rule).",
+      "Do use category tints only inside that category's own row, chip, or bar (The Color-Is-Data Rule).",
+      "Do separate surfaces with 1px Hairline (#E7E1D8) borders before reaching for shadows.",
+      "Do keep motion 150–250ms ease-out, state-driven, with a prefers-reduced-motion alternative for every animation.",
+      "Do set timer digits in tabular-nums at every size.",
+      "Do keep touch targets ≥44px — this is a phone-first PWA."
+    ],
+    "donts": [
+      "Don't look like a \"corporate SaaS dashboard\": no navy/gray KPI cards, no hero-metric blocks, no dashboard chrome.",
+      "Don't tip into a \"childish kids app\": no mascots, no bounce or elastic easing, no crayon-primary palettes.",
+      "Don't drift toward the \"dark techy tracker\": no dark mode, no monospace UI text.",
+      "Don't build \"cluttered data-dense UI\": Stats shows one view at a time; no walls of numbers or chart overload.",
+      "Don't use Fredoka or any second typeface in new work.",
+      "Don't use colored shadows, 28px bubble radii, or uppercase-tracked labels — all retired with the candy-pop skin.",
+      "Don't use side-stripe borders (border-left > 1px as accent), gradient text, or glassmorphism — banned outright."
+    ]
+  }
+}

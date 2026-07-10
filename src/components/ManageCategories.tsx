@@ -20,84 +20,76 @@ export default function ManageCategories({
   onClose,
 }: Props) {
   return (
-    <BottomSheet onClose={onClose} scrollable>
+    <BottomSheet onClose={onClose} label="Manage categories" scrollable>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 22 }}>
-          Categories
-        </div>
-        <div
-          onClick={onClose}
-          style={{ fontWeight: 800, fontSize: 14, color: '#FF6B57', cursor: 'pointer', padding: '6px 10px' }}
-        >
+        <div style={{ fontWeight: 700, fontSize: 18 }}>Categories</div>
+        <button onClick={onClose} className="btn-ghost" style={{ fontSize: 13 }}>
           Done
-        </div>
+        </button>
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 16 }}>
         {categories.map((c) => (
-          <div key={c.id} style={{ background: '#fff', borderRadius: 20, padding: '14px 16px' }}>
+          <div
+            key={c.id}
+            style={{
+              background: 'var(--surface)',
+              border: '1px solid var(--line)',
+              borderRadius: 'var(--r-lg)',
+              padding: '14px 16px',
+            }}
+          >
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
               <input
                 defaultValue={c.name}
+                aria-label={`Rename ${c.name}`}
                 onBlur={(e) => {
                   if (e.target.value !== c.name) onRename(c.id, e.target.value.trim() || c.name);
                 }}
-                style={{
-                  flex: 1,
-                  minWidth: 0,
-                  background: '#FFF6EC',
-                  border: '2px solid #F3EADF',
-                  borderRadius: 12,
-                  padding: '10px 12px',
-                  fontWeight: 800,
-                  fontSize: 15,
-                  color: '#2D2438',
-                }}
+                className="field"
+                style={{ flex: 1, minWidth: 0, width: 'auto', fontWeight: 700 }}
               />
-              <div
+              <button
                 onClick={() => onDelete(c.id)}
-                style={{ color: '#E14B4B', fontWeight: 800, fontSize: 13, cursor: 'pointer', padding: 8 }}
+                className="btn-ghost btn-ghost--danger"
+                style={{ fontSize: 13, flexShrink: 0 }}
               >
                 Delete
-              </div>
+              </button>
             </div>
-            <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
-              {COLOR_PALETTE.map((pair) => (
-                <div
-                  key={pair[0]}
-                  onClick={() => onRecolor(c.id, pair)}
-                  style={{
-                    width: 28,
-                    height: 28,
-                    borderRadius: '50%',
-                    background: pair[0],
-                    border: c.color === pair[0] ? '3px solid #2D2438' : '3px solid transparent',
-                    cursor: 'pointer',
-                  }}
-                />
-              ))}
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                marginTop: 6,
+                marginLeft: -8,
+              }}
+            >
+              {COLOR_PALETTE.map((pair) => {
+                const selected = c.color === pair[0];
+                return (
+                  <button
+                    key={pair[0]}
+                    onClick={() => onRecolor(c.id, pair)}
+                    className={selected ? 'swatch swatch--selected' : 'swatch'}
+                    aria-label={`Use color ${pair[0]}`}
+                    aria-pressed={selected}
+                    style={{ '--swatch-color': pair[0] } as React.CSSProperties}
+                  />
+                );
+              })}
             </div>
           </div>
         ))}
       </div>
 
-      <div
+      <button
         onClick={onAdd}
-        style={{
-          marginTop: 14,
-          background: '#FBEBD9',
-          border: '2px dashed #E8D3BC',
-          borderRadius: 20,
-          padding: '14px 0',
-          textAlign: 'center',
-          color: '#B09A85',
-          fontWeight: 800,
-          fontSize: 15,
-          cursor: 'pointer',
-        }}
+        className="btn-secondary"
+        style={{ marginTop: 14, color: 'var(--clay)' }}
       >
         + Add category
-      </div>
+      </button>
     </BottomSheet>
   );
 }

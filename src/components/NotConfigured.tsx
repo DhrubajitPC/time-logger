@@ -1,3 +1,9 @@
+const codeStyle: React.CSSProperties = {
+  background: 'var(--clay-wash)',
+  padding: '2px 6px',
+  borderRadius: 6,
+};
+
 export default function NotConfigured() {
   return (
     <div
@@ -13,26 +19,32 @@ export default function NotConfigured() {
         textAlign: 'center',
       }}
     >
-      <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 26 }}>
-        Almost there
-      </div>
-      <div style={{ color: '#B09A85', fontWeight: 700, fontSize: 15, marginTop: 10, maxWidth: 380 }}>
+      <div style={{ fontWeight: 700, fontSize: 22 }}>Almost there</div>
+      <div
+        style={{
+          color: 'var(--text-muted)',
+          fontWeight: 600,
+          fontSize: 15,
+          lineHeight: 1.5,
+          marginTop: 10,
+          maxWidth: 380,
+        }}
+      >
         Time Pop isn't connected to Firebase yet. Add your Firebase web config to the{' '}
-        <code style={{ background: '#FBEBD9', padding: '2px 6px', borderRadius: 6 }}>.env</code> file
-        (see <code style={{ background: '#FBEBD9', padding: '2px 6px', borderRadius: 6 }}>.env.example</code>)
+        <code style={codeStyle}>.env</code> file (see <code style={codeStyle}>.env.example</code>)
         and restart the dev server.
       </div>
       <div
         style={{
           marginTop: 20,
-          background: '#fff',
-          border: '2px solid #F3EADF',
-          borderRadius: 16,
+          background: 'var(--surface)',
+          border: '1px solid var(--line)',
+          borderRadius: 'var(--r-lg)',
           padding: '16px 18px',
           textAlign: 'left',
           fontFamily: 'ui-monospace, monospace',
           fontSize: 12.5,
-          color: '#6b5d50',
+          color: 'var(--text-muted)',
           maxWidth: 380,
           width: '100%',
           lineHeight: 1.7,

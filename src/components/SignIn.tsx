@@ -63,12 +63,12 @@ export default function SignIn() {
         style={{
           width: 88,
           height: 88,
-          borderRadius: 26,
-          background: '#FF6B57',
+          borderRadius: 'var(--r-lg)',
+          background: 'var(--clay)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          boxShadow: '0 14px 30px rgba(255,107,87,0.35)',
+          boxShadow: 'var(--shadow-raised)',
         }}
       >
         <div
@@ -87,7 +87,7 @@ export default function SignIn() {
               top: '50%',
               width: 3,
               height: 12,
-              background: '#FF6B57',
+              background: 'var(--clay)',
               borderRadius: 2,
               transform: 'translate(-50%, -100%)',
               transformOrigin: 'bottom',
@@ -96,54 +96,50 @@ export default function SignIn() {
         </div>
       </div>
 
-      <div
+      <h1
         style={{
-          fontFamily: "'Fredoka', sans-serif",
           fontWeight: 700,
-          fontSize: 34,
-          marginTop: 22,
-          letterSpacing: '-0.5px',
+          fontSize: 22,
+          lineHeight: 1.25,
+          margin: '22px 0 0',
         }}
       >
         Time Pop
-      </div>
-      <div style={{ color: '#B09A85', fontWeight: 700, fontSize: 16, marginTop: 6, maxWidth: 320 }}>
+      </h1>
+      <div
+        style={{
+          color: 'var(--text-muted)',
+          fontWeight: 600,
+          fontSize: 15,
+          lineHeight: 1.5,
+          marginTop: 6,
+          maxWidth: 320,
+        }}
+      >
         Where's your time going? Track it, see it, own it — synced across all your devices.
       </div>
 
       <button
         onClick={handleSignIn}
         disabled={busy}
+        className="btn-secondary"
         style={{
           marginTop: 34,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           gap: 12,
-          width: '100%',
           maxWidth: 320,
-          background: '#fff',
-          border: '2px solid #F3EADF',
-          borderRadius: 999,
-          padding: '15px 0',
-          fontWeight: 800,
           fontSize: 16,
-          color: '#2D2438',
           cursor: busy ? 'default' : 'pointer',
           opacity: busy ? 0.6 : 1,
-          boxShadow: '0 8px 18px rgba(45,36,56,0.08)',
         }}
       >
         {busy ? (
           <span
-            style={{
-              width: 18,
-              height: 18,
-              border: '3px solid #E8D3BC',
-              borderTopColor: '#FF6B57',
-              borderRadius: '50%',
-              animation: 'spin 0.8s linear infinite',
-            }}
+            className="spinner"
+            style={{ width: 18, height: 18, borderWidth: 3 }}
+            aria-hidden="true"
           />
         ) : (
           <GoogleG />
@@ -152,10 +148,23 @@ export default function SignIn() {
       </button>
 
       {error && (
-        <div style={{ color: '#E14B4B', fontWeight: 700, fontSize: 14, marginTop: 16 }}>{error}</div>
+        <div
+          role="alert"
+          style={{ color: 'var(--danger)', fontWeight: 700, fontSize: 14, marginTop: 16 }}
+        >
+          {error}
+        </div>
       )}
 
-      <div style={{ color: '#C7B7A5', fontWeight: 600, fontSize: 12, marginTop: 28, maxWidth: 300 }}>
+      <div
+        style={{
+          color: 'var(--text-muted)',
+          fontWeight: 600,
+          fontSize: 12,
+          marginTop: 28,
+          maxWidth: 300,
+        }}
+      >
         Your data is private to your account and never shared.
       </div>
     </div>

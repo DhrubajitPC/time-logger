@@ -11,23 +11,10 @@ interface Props {
 }
 
 const label: React.CSSProperties = {
-  fontWeight: 800,
-  fontSize: 13,
-  color: '#B09A85',
-  textTransform: 'uppercase',
-  letterSpacing: 1,
-};
-
-const field: React.CSSProperties = {
-  width: '100%',
-  marginTop: 6,
-  background: '#fff',
-  border: '2px solid #F3EADF',
-  borderRadius: 14,
-  padding: '12px 10px',
+  display: 'block',
   fontWeight: 700,
-  fontSize: 14,
-  color: '#2D2438',
+  fontSize: 13,
+  color: 'var(--text-muted)',
 };
 
 export default function EntryModal({
@@ -39,18 +26,16 @@ export default function EntryModal({
   onClose,
 }: Props) {
   const isEdit = modal.mode === 'edit';
+  const title = isEdit ? 'Edit entry' : 'Add entry';
+  const canSave = Boolean(modal.catId && modal.date && modal.start && modal.end);
+
   return (
-    <BottomSheet onClose={onClose}>
+    <BottomSheet onClose={onClose} label={title}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 22 }}>
-          {isEdit ? 'Edit entry' : 'Add entry'}
-        </div>
-        <div
-          onClick={onClose}
-          style={{ fontWeight: 800, fontSize: 14, color: '#B09A85', cursor: 'pointer', padding: '6px 10px' }}
-        >
+        <div style={{ fontWeight: 700, fontSize: 18 }}>{title}</div>
+        <button onClick={onClose} className="btn-ghost" style={{ fontSize: 13 }}>
           Cancel
-        </div>
+        </button>
       </div>
 
       <div style={{ ...label, marginTop: 18 }}>Category</div>
@@ -58,103 +43,96 @@ export default function EntryModal({
         {categories.map((c) => {
           const active = modal.catId === c.id;
           return (
-            <div
+            <button
               key={c.id}
               onClick={() => onChange({ catId: c.id })}
-              style={{
-                background: active ? c.color : '#fff',
-                color: active ? '#fff' : '#2D2438',
-                border: `2px solid ${active ? c.color : '#F3EADF'}`,
-                borderRadius: 999,
-                padding: '9px 16px',
-                fontWeight: 800,
-                fontSize: 14,
-                cursor: 'pointer',
-              }}
+              className={active ? 'chip chip--selected' : 'chip'}
+              aria-pressed={active}
+              style={active ? { background: c.tint } : undefined}
             >
+              {active && (
+                <span
+                  style={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: '50%',
+                    background: c.color,
+                    flexShrink: 0,
+                  }}
+                />
+              )}
               {c.name}
-            </div>
+            </button>
           );
         })}
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10, marginTop: 18 }}>
         <div>
-          <div style={label}>Date</div>
+          <label htmlFor="entry-date" style={label}>
+            Date
+          </label>
           <input
+            id="entry-date"
             type="date"
             value={modal.date}
             onChange={(e) => onChange({ date: e.target.value })}
-            style={field}
+            className="field"
+            style={{ marginTop: 6, fontWeight: 700, fontSize: 14, padding: '12px 10px' }}
           />
         </div>
         <div>
-          <div style={label}>Start</div>
+          <label htmlFor="entry-start" style={label}>
+            Start
+          </label>
           <input
+            id="entry-start"
             type="time"
             value={modal.start}
             onChange={(e) => onChange({ start: e.target.value })}
-            style={field}
+            className="field"
+            style={{ marginTop: 6, fontWeight: 700, fontSize: 14, padding: '12px 10px' }}
           />
         </div>
         <div>
-          <div style={label}>Stop</div>
+          <label htmlFor="entry-stop" style={label}>
+            Stop
+          </label>
           <input
+            id="entry-stop"
             type="time"
             value={modal.end}
             onChange={(e) => onChange({ end: e.target.value })}
-            style={field}
+            className="field"
+            style={{ marginTop: 6, fontWeight: 700, fontSize: 14, padding: '12px 10px' }}
           />
         </div>
       </div>
 
-      <div style={{ ...label, marginTop: 18 }}>Note (optional)</div>
+      <label htmlFor="entry-note" style={{ ...label, marginTop: 18 }}>
+        Note (optional)
+      </label>
       <textarea
+        id="entry-note"
         value={modal.comment}
         onChange={(e) => onChange({ comment: e.target.value })}
         placeholder="What were you working on?"
         rows={2}
-        style={{
-          ...field,
-          marginTop: 6,
-          resize: 'none',
-          lineHeight: 1.4,
-          fontWeight: 600,
-        }}
+        className="field"
+        style={{ marginTop: 6, resize: 'none', lineHeight: 1.4 }}
       />
 
-      <div
-        onClick={onSave}
-        style={{
-          marginTop: 22,
-          background: '#FF6B57',
-          borderRadius: 999,
-          padding: '16px 0',
-          textAlign: 'center',
-          color: '#fff',
-          fontWeight: 800,
-          fontSize: 16,
-          cursor: 'pointer',
-          boxShadow: '0 10px 20px rgba(255,107,87,0.3)',
-        }}
-      >
+      <button onClick={onSave} disabled={!canSave} className="btn-primary" style={{ marginTop: 22 }}>
         {isEdit ? 'Save changes' : 'Add entry'}
-      </div>
+      </button>
       {isEdit && (
-        <div
+        <button
           onClick={onDelete}
-          style={{
-            marginTop: 12,
-            textAlign: 'center',
-            color: '#E14B4B',
-            fontWeight: 800,
-            fontSize: 14,
-            cursor: 'pointer',
-            padding: 8,
-          }}
+          className="btn-ghost btn-ghost--danger"
+          style={{ marginTop: 8, width: '100%' }}
         >
           Delete entry
-        </div>
+        </button>
       )}
     </BottomSheet>
   );
